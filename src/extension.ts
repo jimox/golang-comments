@@ -36,25 +36,15 @@ export function activate(context: vscode.ExtensionContext) {
 				if (text.startsWith('type')) {
 					// type child struct {
 					name = text.split(' ')[1];
-				} else {					
-					// Now we need to know if this is a method or function
-					if ((text.match(/\(/g) || []).length > 1) {
-						// func (obj *parent) set(bar string) {
-						const start = text.indexOf(')') + 2;
-						const end = text.split('(', 2).join('(').length;
-						const len = end - start;
-						name = text.substr(start, len);
-					} else {
-						// func set(bar string) {
-						const start = 5;
-						const end = text.indexOf('(');
-						const len = end - start;
-						name = text.substr(start, len);
+				} else {
+					const match = text.match(/(\w+)\({1}/);
+					if (match && match.length > 0) {
+						name = match[1];
 					}
 				}
 
 				// If we have text to insert
-				if (name.length > 0) {
+				if (name && name.length > 0) {
 
 					// Get the editor
 					let editor = vscode.window.activeTextEditor;

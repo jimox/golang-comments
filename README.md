@@ -5,3 +5,13 @@ Adds simple Golang comments for the function, method or type of the line the cur
 In a Go file, put your cursor on the line of a function, method ortype. Invoke the Go: Add Comments extension witht eh keyboard shortcu (CMD+K C on Mac) (open the command palette (CMD + Shift + P on Mac) and look for the command 'Go: Add Comments'. Hit enter.)
 
 ![install and work](images/demo.gif)
+
+## Building
+```
+vsce package
+```
+
+## Installing
+```
+code --install-extension golang-comments-0.0.1.vsix
+```

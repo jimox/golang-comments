@@ -4,6 +4,9 @@
 	"description": "Generates Go comments for you.",
 	"publisher": "JimOxenhandler",
 	"version": "0.0.1",
+	"repository": {
+		"url": "https://github.com/jimox/golang-comments"
+	},
 	"engines": {
 		"vscode": "^1.53.0"
 	},
