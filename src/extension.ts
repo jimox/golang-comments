@@ -32,20 +32,23 @@ export function activate(context: vscode.ExtensionContext) {
 				//  Find the name
 				let name = null;
 				
-				// First we need to know if we are dealing with a type or function/method
-				if (text.startsWith('type')) {
-					// type child struct {
-					name = text.split(' ')[1];
-				} else {
+				// Let's get the name
+				if (text.includes("func ")) {
+					// func
 					const match = text.match(/(\w+)\({1}/);
 					if (match && match.length > 0) {
 						name = match[1];
 					}
+				} else if (text.startsWith('type')) {
+					// struct
+					name = text.split(' ')[1];
+				} else {
+					// struct fields
+					name = text.split(' ')[0];
 				}
 
 				// If we have text to insert
 				if (name && name.length > 0) {
-
 					// Get the editor
 					let editor = vscode.window.activeTextEditor;
 					if (editor) {
@@ -60,8 +63,8 @@ export function activate(context: vscode.ExtensionContext) {
 							
 							let editor = vscode.window.activeTextEditor;
 							if (editor) {
-									//Check if there is any text on startLine. If there is, add a new line at the end
-									var pos = new vscode.Position(startLine, 0);	
+									// Check if there is any text on startLine. If there is, add a new line at the end
+									var pos = new vscode.Position(startLine, editor.document.lineAt(startLine).text.length);
 									
 									// Get the preceding whitespace
 									const match = editor.document.lineAt(editor.selection.active.line).text.match(/(\s*)/g);
@@ -79,7 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 									// Move the cursor to the end of the comment line
 									let range = editor.document.lineAt(pos).range;
-									editor.selection =  new vscode.Selection(range.start, range.end);
+									editor.selection =  new vscode.Selection(range.end, range.end);
 									editor.revealRange(range);
 							}
 						}).then(() => {});
